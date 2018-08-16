@@ -29,7 +29,7 @@ class Login extends Component {
                     this.setState({
                         loggedInUserId : results.data.userId
                     });}
-                    ,2500);
+                    ,700);
                 console.log(results.data.message);
                 console.log("I want it here",this.props);
                 // location.replace('/welcome');

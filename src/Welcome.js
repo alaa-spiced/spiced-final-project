@@ -8,6 +8,7 @@ import Contact from "./Contact";
 import Adds from "./Adds";
 import CreateAdd from './CreateAdd';
 import { Link } from 'react-router-dom';
+import Profile from './Profile';
 import axios from './axios';
 
 class Welcome extends React.Component {
@@ -52,10 +53,11 @@ class Welcome extends React.Component {
                             <div className="welcome-nav">
                                 <Link className="about-link" to="/about">About us</Link>
                                 <Link className="contact-link" to="/contact">Contact us</Link>
-                                <Link className="adds-link" to ="/adds">Adds</Link>
+                                <Link className="adds-link" to ="/adds">Ads</Link>
                                 {!this.props.loggedInUserId && <Link className="register-link" to ="/sign-up">Sign Up</Link>}
                                 {!this.props.loggedInUserId && <Link className="login-link" to ="/log-in">Log In</Link>}
-                                {this.props.loggedInUserId && <Link className="create-add-link" to ="/create-add">Create Add</Link>}
+                                {this.props.loggedInUserId && <Link className="create-add-link" to ="/create-add">Create Ad</Link>}
+                                {this.props.loggedInUserId && <Link className="profile-link" to ="/user-profile">Profile</Link>}
                             </div>
                         </div>
                         <div className="main-content">
@@ -65,6 +67,7 @@ class Welcome extends React.Component {
                             <Route path="/create-add"  component={CreateAdd} />
                             <Route exact path="/sign-up" component={Registration} />
                             <Route path="/log-in" component={Login} />
+                            <Route path="/user-profile" render={() => (<Profile userInfoProfile={this.props.userInfo}/>)} />
 
                         </div>
 

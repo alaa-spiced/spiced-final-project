@@ -1,46 +1,52 @@
 import React, {Component} from "react";
+import { connect } from 'react-redux';
+import { receiveUserInfo , userIsLoggedIn , userIsLoggedOut } from './actions';
 import axios from './axios';
-// import { Link } from 'react-router-dom';
-// import { connect } from 'react-redux';
-// import { receiveFriendsWannabes , acceptFriendRequest , endFriendship} from './actions';
-// import App from './App';
+import Profile from './Profile';
 
 class Registration extends Component {
     constructor(props) {
         super(props);
-        this.state={};
+        this.state = {};
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(e) {
         this.setState({ [e.target.name] : e.target.value }, ()=>{
-            console.log(this.state);
         });
     }
 
     handleSubmit(e) {
         e.preventDefault();
         axios.post('/registration', this.state).then((results)=>{
+            console.log(results.data);
             if (results.data.success) {
-                console.log(results.data.success);
-                this.setState({isloggedIn : true});
-                // location.replace('/');
-
+                this.props.dispatch(receiveUserInfo(results.data.userId));
+                this.props.dispatch(userIsLoggedIn(results.data.userId));
+                setTimeout(()=>{
+                    console.log("Im changing the state");
+                    this.setState({
+                        loggedInUserId : results.data.userId
+                    });}
+                    ,700);
+                console.log(results.data.message);
+                console.log("I want it here",this.props);
+                // location.replace('/welcome');
             }else {
-                this.setState({isloggedIn : false});
-
+                this.props.dispatch(userIsLoggedOut());
+                console.log(results.data.message);
             }
         });
 
     }
 
     render() {
-        // if (this.state.isLoggedIn) {
-        //     return (
-        //         <App />
-        //     );
-        // }
+        if (this.state.loggedInUserId) {
+            console.log("returning profile component", this.props.userInfo);
+            return (<Profile userInfoProfile={this.props.userInfo}/>);
+
+        }
         return (
             <div className="registration-div">
                 <form className="registration-form" onSubmit={this.handleSubmit}>
@@ -102,11 +108,12 @@ class Registration extends Component {
 
 }
 
-// const mapStateToProps = function(state) {
-//     return {
-//         userWannabes: state.userFriendsAndWannabes
-//     };
-// };
-//
-// export default connect(mapStateToProps)(Registration);
-export default Registration;
+const mapStateToProps = function(state) {
+    return {
+        userInfo : state.userInfo,
+        userAdsImages : state.userAdsImages,
+        loggedInUserId : state.loggedInUserId
+    };
+};
+
+export default connect(mapStateToProps)(Registration);

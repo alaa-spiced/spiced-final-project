@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from './axios';
 
-function Uploader(){
+function Uploader({setImage}){
     var fileName, imageFile;
 
     function imageSelected(e) {
@@ -13,8 +13,8 @@ function Uploader(){
         var formData = new FormData();
         formData.append("file", imageFile);
         axios.post("/upload", formData).then(function(res) {
-            console.log(res.data);
-            this.props.setImage(res.data.imageUrl);
+            console.log(res.data.imageUrl);
+            setImage(res.data.imageUrl);
         });
     }
 

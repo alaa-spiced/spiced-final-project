@@ -2,12 +2,14 @@ import React, {Component} from "react";
 import { connect } from 'react-redux';
 import { receiveUserInfo , userIsLoggedIn , userIsLoggedOut } from './actions';
 import axios from './axios';
-import Profile from './Profile';
+// import Profile from './Profile';
 
-class Registration extends Component {
+class EditProfile extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            info : this.props.userInfo
+        };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -19,34 +21,29 @@ class Registration extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        axios.post('/registration', this.state).then((results)=>{
+        axios.post('/update-user-info', this.state).then((results)=>{
             console.log(results.data);
-            if (results.data.success) {
-                this.props.dispatch(receiveUserInfo(results.data.userId));
-                this.props.dispatch(userIsLoggedIn(results.data.userId));
-                setTimeout(()=>{
-                    console.log("Im changing the state");
-                    this.setState({
-                        loggedInUserId : results.data.userId
-                    });}
-                    ,700);
-                console.log(results.data.message);
-                console.log("I want it here",this.props);
-                // location.replace('/welcome');
-            }else {
-                this.props.dispatch(userIsLoggedOut());
-                console.log(results.data.message);
-            }
+        //     if (results.data.success) {
+        //         this.props.dispatch(receiveUserInfo(results.data.userId));
+        //         this.props.dispatch(userIsLoggedIn(results.data.userId));
+        //         setTimeout(()=>{
+        //             console.log("Im changing the state");
+        //             this.setState({
+        //                 loggedInUserId : results.data.userId
+        //             });}
+        //             ,700);
+        //         console.log(results.data.message);
+        //         console.log("I want it here",this.props);
+        //         // location.replace('/welcome');
+        //     }else {
+        //         this.props.dispatch(userIsLoggedOut());
+        //         console.log(results.data.message);
+        //     }
         });
 
     }
 
     render() {
-        if (this.state.loggedInUserId) {
-            console.log("returning profile component", this.props.userInfo);
-            return (<Profile userInfoProfile={this.props.userInfo}/>);
-
-        }
         return (
             <div className="registration-div">
                 <form className="registration-form" onSubmit={this.handleSubmit}>
@@ -54,7 +51,7 @@ class Registration extends Component {
                         <input
                             type="text"
                             name="firstname"
-                            placeholder="First Name"
+                            placeholder={this.state.info.first_name}
                             onChange={this.handleChange}
                         />
                     </div>
@@ -63,7 +60,7 @@ class Registration extends Component {
                         <input
                             type="text"
                             name="lastname"
-                            placeholder="Last Name"
+                            placeholder={this.state.info.last_name}
                             onChange={this.handleChange}
                         />
                     </div>
@@ -72,7 +69,7 @@ class Registration extends Component {
                         <input
                             type="text"
                             name="gender"
-                            placeholder="Gender"
+                            placeholder={this.state.info.gender}
                             onChange={this.handleChange}
                         />
                     </div>
@@ -81,7 +78,7 @@ class Registration extends Component {
                         <input
                             type="text"
                             name="phonenumber"
-                            placeholder="Phone Number"
+                            placeholder={this.state.info.phone_number}
                             onChange={this.handleChange}
                         />
                     </div>
@@ -90,7 +87,7 @@ class Registration extends Component {
                         <input
                             type="email"
                             name="email"
-                            placeholder="E-Mail"
+                            placeholder={this.state.info.email}
                             onChange={this.handleChange}
                         />
                     </div>
@@ -104,7 +101,7 @@ class Registration extends Component {
                         />
                     </div>
                     <div className="input-div">
-                        <input type="submit" value="submit" />
+                        <input type="submit" value="Save" />
                     </div>
                 </form>
             </div>
@@ -122,4 +119,4 @@ const mapStateToProps = function(state) {
     };
 };
 
-export default connect(mapStateToProps)(Registration);
+export default connect(mapStateToProps)(EditProfile);

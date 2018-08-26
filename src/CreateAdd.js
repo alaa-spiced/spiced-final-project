@@ -48,72 +48,78 @@ class CreateAdd extends Component {
     render() {
 
         return (
-            <div className="create-add-div">
-                <form className="create-add-form" onSubmit={this.handleSubmit}>
-                    <label> Title: </label>
-                    <input
-                        type="text"
-                        name="title"
-                        placeholder="Title"
-                        onChange={this.handleChange}
-                    />
+            <div className="registration-div">
+                <form className="registration-form" onSubmit={this.handleSubmit}>
+                    <div className="input-div">
+                        <input
+                            type="text"
+                            name="title"
+                            placeholder="Title"
+                            onChange={this.handleChange}
+                        />
+                    </div>
+                    <div className="input-div">
 
-                    <label> Class: </label>
-                    <select id="class" name="class" form="class">
-                        <option value="givings">Givings</option>
-                        <option value="needs">Needs</option>
-                    </select>
+                        <select id="class" name="class" form="class">
+                            <option value="givings">Givings</option>
+                            <option value="needs">Needs</option>
+                        </select>
 
-                    <label> Category: </label>
-                    <select id="category" name="category" form="category">
-                        <option value="living_garden">Living & Garden</option>
-                        <option value="furniture_lamps">Furniture & Lamps</option>
-                        <option value="electronics_technology">Electronics & Technology</option>
-                        <option value="books_movies_musics">Books, Movies & Musics</option>
-                        <option value="fashion">Fashion</option>
-                        <option value="child_baby">Child & Baby</option>
-                        <option value="leisure_sports">Leisure & Sports</option>
-                        <option value="cars_engines">Cars & Engines</option>
-                        <option value="vouchers_tickets">Vouchers & Tickets</option>
-                        <option value="foods">Foods</option>
-                        <option value="pets_accessories">Pets & Accessories</option>
-                        <option value="Other">Other</option>
-                    </select>
 
-                    <label> POSTAL_CODE:  </label>
-                    <input
-                        type="text"
-                        name="postalcode"
-                        placeholder="Postal Code"
-                        onChange={this.handleChange}
-                    />
+                        <select id="category" name="category" form="category">
+                            <option value="living_garden">Living & Garden</option>
+                            <option value="furniture_lamps">Furniture & Lamps</option>
+                            <option value="electronics_technology">Electronics & Technology</option>
+                            <option value="books_movies_musics">Books, Movies & Musics</option>
+                            <option value="fashion">Fashion</option>
+                            <option value="child_baby">Child & Baby</option>
+                            <option value="leisure_sports">Leisure & Sports</option>
+                            <option value="cars_engines">Cars & Engines</option>
+                            <option value="vouchers_tickets">Vouchers & Tickets</option>
+                            <option value="foods">Foods</option>
+                            <option value="pets_accessories">Pets & Accessories</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div className="input-div">
 
-                    <label> CITY:  </label>
-                    <input
-                        type="text"
-                        name="city"
-                        placeholder="City"
-                        onChange={this.handleChange}
-                    />
+                        <input
+                            type="text"
+                            name="postalcode"
+                            placeholder="Postal Code"
+                            onChange={this.handleChange}
+                        />
+                    </div>
+                    <div className="input-div">
 
-                    <label> Country:  </label>
-                    <input
-                        type="text"
-                        name="country"
-                        placeholder="Country"
-                        onChange={this.handleChange}
-                    />
+                        <input
+                            type="text"
+                            name="city"
+                            placeholder="City"
+                            onChange={this.handleChange}
+                        />
+                    </div>
+                    <div className="input-div">
 
-                    <label> Description:  </label>
-                    <textarea
-                        type="text"
-                        name="description"
-                        placeholder="Description"
-                        onChange={this.handleChange}
-                    />
+                        <input
+                            type="text"
+                            name="country"
+                            placeholder="Country"
+                            onChange={this.handleChange}
+                        />
+                    </div>
+                    <div className="input-div">
 
-                    <input type="submit" value="submit" />
-
+                        <input
+                            type="text"
+                            name="description"
+                            placeholder="Description"
+                            onChange={this.handleChange}
+                        />
+                    </div>
+                    <div className="input-div">
+                        <input type="submit" value="submit" />
+                    </div>
                 </form>
                 {this.state.addImagesUploaderIsVisible && <AddImagesUploader  />}
             </div>

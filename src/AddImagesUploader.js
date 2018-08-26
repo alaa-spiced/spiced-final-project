@@ -40,9 +40,9 @@ class AddImagesUploader extends React.Component{
     render(){
         return (
             <div>
-                <div >
-                    <label className="file-field">select image</label>
-                    <input type="file"  id="file-field" onChange={this.imageSelected} />
+                <div className="profile-uploader">
+                    <input type="file"  className="inputfile" onChange={this.imageSelected} />
+                    <label htmlFor="file">Upload image</label>
                     <button className="upload-button" onClick={this.upload}>upload!</button>
                 </div>
                 {this.state.addImagesArray.length && (<div id="image">
@@ -51,6 +51,7 @@ class AddImagesUploader extends React.Component{
 
                     ))}
                 </div>)}
+
             </div>
         );
     }

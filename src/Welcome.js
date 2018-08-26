@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import Profile from './Profile';
 import axios from './axios';
 
+
 class Welcome extends React.Component {
     constructor(props){
         super(props);
@@ -58,6 +59,7 @@ class Welcome extends React.Component {
                                 {!this.props.loggedInUserId && <Link className="login-link" to ="/log-in">Log In</Link>}
                                 {this.props.loggedInUserId && <Link className="create-add-link" to ="/create-add">Create Ad</Link>}
                                 {this.props.loggedInUserId && <Link className="profile-link" to ="/user-profile">Profile</Link>}
+                                {/*{this.props.loggedInUserId && <Link className="log-out" to ="/log-out">Logout</Link>}*/}
                             </div>
                         </div>
                         <div className="main-content">
@@ -68,7 +70,7 @@ class Welcome extends React.Component {
                             <Route exact path="/sign-up" component={Registration} />
                             <Route path="/log-in" component={Login} />
                             <Route path="/user-profile" render={() => (<Profile userInfoProfile={this.props.userInfo}/>)} />
-
+                            {/*<Route path="/log-out" component={Logout} />*/}
                         </div>
 
 

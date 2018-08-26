@@ -173,10 +173,19 @@ exports.addImage = function(userId, imageName) {
 //     });
 // };
 
+exports.updateUserInfo = function (firstName,lastName,gender,phoneNumber,email,password,userId) {
+    const q =
+  "UPDATE users SET first_name = ($1), last_name = ($2), gender = ($3), phone_number = ($4), email = ($5), hashed_password = ($6) WHERE id = ($7) RETURNING *;";
+
+    const params = [firstName,lastName,gender,phoneNumber,email,password,userId];
+    return db.query(q, params).then(results => {
+        return results.rows[0];
+    });
+};
 
 exports.getAllAdds = function() {
     const q = `
-           SELECT * from adds;
+           SELECT * from adds ORDER BY created_at ASC;
        `;
     return db.query(q).then(results => {
         return results.rows;

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ProfilePic from './ProfilePic';
 import Uploader from './Uploader';
+import EditProfile from './EditProfile';
 // import { receiveUserInfo } from './actions';
 // import axios from './axios';
 import { connect } from 'react-redux';
@@ -11,16 +12,18 @@ class Profile extends Component {
         super(props);
         this.state = {
             userInfoProfile : this.props.userInfoProfile,
-            uploaderIsVisible : false
+            uploaderIsVisible : false,
+            editProfile : false
         };
         console.log("constructor",this.props);
         this.handleChange = this.handleChange.bind(this);
         this.showUploader = this.showUploader.bind(this);
         this.setImage = this.setImage.bind(this);
+        this.editProfile = this.editProfile.bind(this);
     }
 
     UNSAFE_componentWillMount(){
-        console.log("inside profile ");
+        // console.log("inside profile ");
         // this.props.dispatch(receiveUserInfo(this.props.loggedInUserId));
         this.setState({
             profilePic : this.props.userInfoProfile.profile_pic_url || "/images/default.jpg"
@@ -46,20 +49,34 @@ class Profile extends Component {
         });
     }
 
+    editProfile(){
+        console.log("Im in Editing");
+        this.setState({
+            editProfile : !this.state.editProfile
+        });
+    }
+
     render() {
 
         return (
-            <div id="profile">
-                <ProfilePic className="profile-profilepic" image={this.state.profilePic} first={this.props.userInfoProfile.first_name} last={this.props.userInfoProfile.last_name} gender={this.props.userInfoProfile.gender} phoneNumber={this.props.userInfoProfile.phone_number} email={this.props.userInfoProfile.email} clickHandler={this.showUploader} />
-                {this.state.uploaderIsVisible && <Uploader className="uploader" setImage={this.setImage} />}
-                {/*<div className="bio-div">{userBio && <h5 className="user-bio">{userBio}</h5>}*/}
+            <div className="profile-page">
+                <div id="profile">
+                    <ProfilePic className="profile-profilepic" image={this.state.profilePic} first={this.props.userInfoProfile.first_name} last={this.props.userInfoProfile.last_name} gender={this.props.userInfoProfile.gender} phoneNumber={this.props.userInfoProfile.phone_number} email={this.props.userInfoProfile.email} clickHandler={this.showUploader} />
+                    {this.state.uploaderIsVisible && <Uploader className="uploader" setImage={this.setImage} />}
+                    {/*<div className="bio-div">{userBio && <h5 className="user-bio">{userBio}</h5>}*/}
 
-                {/*{ showBio
+                    {/*{ showBio
                         ? (<form onSubmit={()=>setBio(this.state.bioText)}><textarea name="bioText" onChange={this.handleChange}></textarea> <input type="submit" value="submit" /></form>)
                         : <p onClick={ toggleShowBio } >Click to Edit a bio</p>
                     }*/}
-            </div>
 
+                    <button className="edit-profile-button" onClick={this.editProfile}>Edit Profile</button>
+
+                </div>
+                <div className="edit-profile">
+                    {this.state.editProfile && <EditProfile info={this.props.userInfo}/>}
+                </div>
+            </div>
         );
     }
 }

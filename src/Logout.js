@@ -2,32 +2,14 @@ import React from "react";
 import { connect } from 'react-redux';
 import { receiveAdds } from './actions';
 
-class Adds extends React.Component {
+class Logout extends React.Component {
     constructor(props){
         super(props);
-        // this.state = {
-        //     numOfPages : 1,
-        //     counter : 1,
-        //     numOfAds : 4
-        // };
         this.changeDateStyle = this.changeDateStyle.bind(this);
-        // this.moreAdsButton = this.moreAdsButton.bind(this);
     }
     UNSAFE_componentWillMount() {
         this.props.dispatch(receiveAdds());
     }
-
-    changeDateStyle(date){
-        var d = new Date(date);
-        var n = d.toLocaleString();
-        return n;
-    }
-    // moreAdsButton(){
-    //     this.setState = {
-    //         counter : this.state.counter+4,
-    //         numOfPages : this.state.numOfPages+1
-    //     };
-    // }
 
     render(){
         var { adds }  = this.props;
@@ -71,10 +53,4 @@ class Adds extends React.Component {
     }
 }
 
-const mapStateToProps = function(state) {
-    return {
-        adds : state.adds
-    };
-};
-
-export default connect(mapStateToProps)(Adds);
+export default Logout;

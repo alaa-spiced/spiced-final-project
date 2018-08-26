@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const server = require('http').Server(app);
+const nodeMailer = require('nodemailer');
 const io = require('socket.io')(server, { origins: 'localhost:8080' });
 const s3 = require("./s3");
 const config = require('./config');
@@ -15,6 +16,7 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended : false}));
 app.use(bodyParser.json());
 const compression = require('compression');
+const secrets = require('./secrets');
 
 app.use(compression());
 
@@ -248,6 +250,29 @@ app.post('/create-add', (req , res) => {
 
 });
 
+app.post('/update-user-info', (req ,res)=>{
+    var hashedPassword;
+    console.log(req.body);
+    if (req.body.password) {
+        bcrypt.hashPassword(req.body.password).then((results)=>{
+            hashedPassword = results;
+        });
+    }
+    db.updateUserInfo(req.body.firstname || req.body.info.first_name ,
+        req.body.lastname || req.body.info.last_name ,
+        req.body.gender || req.body.info.gender,
+        req.body.phonenumber || req.body.info.phone_number,
+        req.body.email || req.body.info.email,
+        hashedPassword || req.body.info.hashed_password,
+        req.session.userId ).then((results)=>{
+        console.log(results);
+        res.json({
+            ...results
+        });
+    });
+
+});
+
 
 // app.get('/user/:id.json', (req , res)=> {
 //     if (req.session.userId == req.params.id) {
@@ -411,6 +436,51 @@ app.get('/delete-account', checkLogin, (req, res) =>{
 //         });
 //     });
 // });
+
+
+app.post("/contact-us", (req, res) => {
+    console.log(req.body);
+    const output = `
+       <p>New message from mcse.alaa@gmail.com received!</p>
+       <h3>ContactDetails</h3>
+       <ul>
+           <li>FullName: ${req.body.firstname} ${req.body.lastname}</li>
+           <li>Emailadresse: ${req.body.email}</li>
+           <li>TelephoneNumber: ${req.body.phone_number}</li>
+       </ul>
+       <h3>Message</h3>
+       <p>${req.body.message}</p>`;
+
+    let transporter = nodeMailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false,
+        auth: {
+            user: secrets.user,
+            pass: secrets.pass
+        }
+    });
+
+    let mailOptions = {
+        from: '"free your stuff" <mcse.alaa@gmail.com>',
+        to: "mcse.alaa@gmail.com",
+        subject: "Hello :heavy_check_mark:",
+        text: "Hello world?",
+        html: output
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return console.log(error);
+        }
+        console.log("Message sent: %s", info.messageId);
+        console.log("Preview URL: %s", nodeMailer.getTestMessageUrl(info));
+
+        res.render("contact", { message: "Your Email sent successfully!" });
+    });
+});
+
+
 
 
 let addsImagesArray = [];

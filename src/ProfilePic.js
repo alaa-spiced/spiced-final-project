@@ -4,10 +4,12 @@ function ProfilePic ({image, first, last, gender, email, phoneNumber, clickHandl
     return (
         <div className="profilepic-container">
             <img className="profile-profilepic" src={image} onClick={clickHandler} />
-            <h1 className="user-name-profile"> {first}{" "}{last}</h1>
-            <h2 className="user-gender-profile"> {gender}</h2>
-            <h2 className="user-email-profile"> {email}</h2>
-            <h2 className="user-phone-profile"> {phoneNumber}</h2>
+            <div className="user-information">
+                <h1 className="user"> {first}{" "}{last}</h1>
+                <h2 className="user"> {gender}</h2>
+                <h2 className="user"> {email}</h2>
+                <h2 className="user"> {phoneNumber}</h2>
+            </div>
         </div>
     );
 }

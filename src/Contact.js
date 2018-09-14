@@ -9,14 +9,12 @@ class Contact extends Component { //inherits properties of Component
     constructor(props) {
         super(props);
         this.state = {};
-        //
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(e) {
         this.setState({ [e.target.name] : e.target.value }, ()=>{
-            // console.log(this.state);
         });
     }
 
@@ -81,7 +79,7 @@ class Contact extends Component { //inherits properties of Component
                         <input name="contact_message" placeholder="Message" onChange={this.handleChange}/>
                     </div>
                     <div className="input-div">
-                        <input type="submit" value="submit" />
+                        <input type="submit" value="Send Message" />
                     </div>
                 </form>
             </div>

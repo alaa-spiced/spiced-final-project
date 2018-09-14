@@ -1,24 +1,24 @@
 import axios from './axios';
 
-export async function receiveAdds() {
-    const results  = await axios.get('/adds');
-    console.log(results.data.addsImages);
+export async function receiveAds() {
+    const results  = await axios.get('/ads');
+    console.log("receiving All Ads ",results.data.adsImages);
     return {
-        type                    :   'RECEIVE_ADDS',
-        adds  :   results.data.addsImages
+        type                    :   'RECEIVE_ADS',
+        ads  :   results.data.adsImages
     };
 }
 
-export async function receiveUserInfo(userId) {
-    const results  = await axios.post('/get-user-info',({userId : userId}));
-    console.log("User Info" , results.data.userInfo);
-    console.log("User Ads Images" , results.data.userAdsImages);
-    return {
-        type                    :   'RECEIVE_USER_INFO',
-        userInfo  :   results.data.userInfo,
-        userAdsImages   :   results.data.userAdsImages
-    };
-}
+// export async function receiveUserInfo(userId) {
+//     const results  = await axios.post('/get-user-info',({userId : userId}));
+//     console.log("User Info" , results.data.userInfo);
+//     console.log("User Ads Images" , results.data.userAdsImages);
+//     return {
+//         type                    :   'RECEIVE_USER_INFO',
+//         userInfo  :   results.data.userInfo,
+//         userAdsImages   :   results.data.userAdsImages
+//     };
+// }
 
 export function userIsLoggedIn(userId) {
     return {

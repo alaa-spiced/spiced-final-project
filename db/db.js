@@ -183,20 +183,20 @@ exports.updateUserInfo = function (firstName,lastName,gender,phoneNumber,email,p
     });
 };
 
-exports.getAllAdds = function() {
+exports.getAllAds = function() {
     const q = `
-           SELECT * from adds ORDER BY created_at ASC;
+           SELECT * from ads ORDER BY created_at ASC;
        `;
     return db.query(q).then(results => {
         return results.rows;
     });
 };
 
-exports.getAddImages = function(addId) {
+exports.getAdImages = function(adId) {
     const q = `
-         SELECT id,image_urls from images where adds_id = $1;
+         SELECT id,image_urls from images where ad_id = $1;
      `;
-    const params = [addId];
+    const params = [adId];
     return db.query(q,params).then(results => {
         return results.rows;
     });
@@ -204,7 +204,7 @@ exports.getAddImages = function(addId) {
 
 exports.getAllUserAds = function(userId) {
     const q = `
-           SELECT * from adds where user_id=($1);
+           SELECT * from ads where user_id=($1);
        `;
     const params = [userId];
     return db.query(q , params).then(results => {
@@ -212,9 +212,9 @@ exports.getAllUserAds = function(userId) {
     });
 };
 
-exports.createAdd = function(userId, title, clas, category,postalCode,city,country,description) {
+exports.createAd = function(userId, title, clas, category,postalCode,city,country,description) {
     const query =
-    "INSERT INTO adds (user_id, title, class, category,post_code,city,country,description) VALUES ($1, $2 ,$3, $4, $5, $6, $7, $8) RETURNING *";
+    "INSERT INTO ads (user_id, title, class, category,post_code,city,country,description) VALUES ($1, $2 ,$3, $4, $5, $6, $7, $8) RETURNING *";
 
     const params = [userId, title, clas, category,postalCode,city,country,description];
     return db.query(query, params).then(results => {
@@ -222,9 +222,9 @@ exports.createAdd = function(userId, title, clas, category,postalCode,city,count
     });
 };
 
-exports.addAddImages = function(addId, imageUrl) {
-    const q = "INSERT INTO images (adds_id,image_urls) VALUES ($1, $2) RETURNING *;";
-    const params = [addId, imageUrl];
+exports.addAdImages = function(adId, imageUrl) {
+    const q = "INSERT INTO images (ad_id,image_urls) VALUES ($1, $2) RETURNING *;";
+    const params = [adId, imageUrl];
     return db.query(q, params).then(results => {
         return results.rows[0];
     });

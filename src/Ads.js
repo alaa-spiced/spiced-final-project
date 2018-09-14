@@ -1,18 +1,31 @@
 import React from "react";
-import { connect } from 'react-redux';
-import { receiveAds } from './actions';
+import axios from './axios';
+// import { connect } from 'react-redux';
+// import { receiveAds } from './actions';
 
-class Logout extends React.Component {
+class Ads extends React.Component {
     constructor(props){
         super(props);
+        this.state = {ads : null};
         this.changeDateStyle = this.changeDateStyle.bind(this);
     }
     UNSAFE_componentWillMount() {
-        this.props.dispatch(receiveAds());
+     axios.get('/ads').then((results)=>{
+       console.log("receiving All Ads ",results.data.adsImages);
+       this.setState({
+           ads  :   results.data.adsImages
+       });
+     });
+    }
+
+    changeDateStyle(date){
+        var d = new Date(date);
+        var n = d.toLocaleString();
+        return n;
     }
 
     render(){
-        var { ads }  = this.props;
+        var { ads }  = this.state;
 
         if (!ads) {
             return null;
@@ -39,9 +52,9 @@ class Logout extends React.Component {
                         </div>
                     </div>
                 ))}
-                <div className="button">
+                {/*<div className="button">
                     <button onClick={()=>this.moreAdsButton}>SHOW MORE</button>
-                </div>
+                </div>*/}
             </div>
         );
 
@@ -53,4 +66,12 @@ class Logout extends React.Component {
     }
 }
 
-export default Logout;
+// const mapStateToProps = function(state) {
+//     return {
+//         ads : state.ads
+//     };
+// };
+//
+// export default connect(mapStateToProps)(Ads);
+
+export default Ads;

@@ -1,24 +1,24 @@
 import React, {Component} from "react";
-import AddImagesUploader from './AddImagesUploader';
+import AdImagesUploader from './AdImagesUploader';
 import axios from './axios';
 // import { Link } from 'react-router-dom';
 // import { connect } from 'react-redux';
 // import { receiveFriendsWannabes , acceptFriendRequest , endFriendship} from './actions';
 //import App from './App';
 
-class CreateAdd extends Component {
+class CreateAd extends Component {
     constructor(props) {
         super(props);
-        this.state = {addImagesUploaderIsVisible : false};
-        this.showAddImagesUploader = this.showAddImagesUploader.bind(this);
+        this.state = {adImagesUploaderIsVisible : false};
+        this.showAdImagesUploader = this.showAdImagesUploader.bind(this);
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    showAddImagesUploader() {
+    showAdImagesUploader() {
         this.setState({
-            addImagesUploaderIsVisible : !this.state.addImagesUploaderIsVisible
+            adImagesUploaderIsVisible : !this.state.adImagesUploaderIsVisible
         });
     }
 
@@ -36,10 +36,10 @@ class CreateAdd extends Component {
         e.preventDefault();
 
         console.log(this.state);
-        axios.post('/create-add', this.state).then((results)=>{
+        axios.post('/create-ad', this.state).then((results)=>{
             console.log(results.data);
             this.setState({
-                addImagesUploaderIsVisible : true
+                adImagesUploaderIsVisible : true
             });
         });
 
@@ -121,7 +121,7 @@ class CreateAdd extends Component {
                         <input type="submit" value="submit" />
                     </div>
                 </form>
-                {this.state.addImagesUploaderIsVisible && <AddImagesUploader  />}
+                {this.state.adImagesUploaderIsVisible && <AdImagesUploader  />}
             </div>
         );
     }
@@ -130,4 +130,4 @@ class CreateAdd extends Component {
 }
 
 
-export default CreateAdd;
+export default CreateAd;

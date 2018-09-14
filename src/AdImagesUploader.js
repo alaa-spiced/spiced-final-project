@@ -1,10 +1,10 @@
 import React from 'react';
 import axios from './axios';
 
-class AddImagesUploader extends React.Component{
+class AdImagesUploader extends React.Component{
     constructor(props){
         super(props);
-        this.state ={addImagesArray : []};
+        this.state ={adImagesArray : []};
         this.imageSelected = this.imageSelected.bind(this);
         this.upload = this.upload.bind(this);
         this.imageFile;
@@ -20,7 +20,7 @@ class AddImagesUploader extends React.Component{
     upload() {
         var formData = new FormData();
         formData.append("file", this.imageFile);
-        axios.post("/upload-add-images", formData).then((res)=> {
+        axios.post("/upload-ad-images", formData).then((res)=> {
             console.log(res.data.success);
             if (res.data.success) {
                 let obj = {
@@ -28,10 +28,10 @@ class AddImagesUploader extends React.Component{
                     imageId : res.data.imageId
                 };
                 console.log(obj);
-                this.state.addImagesArray.push(obj);
-                console.log(this.state.addImagesArray);
+                this.state.adImagesArray.push(obj);
+                console.log(this.state.adImagesArray);
                 this.setState({
-                    addImagesArray : this.state.addImagesArray
+                    adImagesArray : this.state.adImagesArray
                 });
             }
         });
@@ -45,9 +45,9 @@ class AddImagesUploader extends React.Component{
                     <label htmlFor="file">Upload image</label>
                     <button className="upload-button" onClick={this.upload}>upload!</button>
                 </div>
-                {this.state.addImagesArray.length && (<div id="image">
-                    {this.state.addImagesArray.map(image =>(
-                        <img key={image.imageId} className="add-image" src={image.imageUrl} />
+                {this.state.adImagesArray.length && (<div id="image">
+                    {this.state.adImagesArray.map(image =>(
+                        <img key={image.imageId} className="ad-image" src={image.imageUrl} />
 
                     ))}
                 </div>)}
@@ -57,4 +57,4 @@ class AddImagesUploader extends React.Component{
     }
 }
 
-export default AddImagesUploader;
+export default AdImagesUploader;

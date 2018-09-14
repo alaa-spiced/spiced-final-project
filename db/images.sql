@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS images;
 
 CREATE TABLE images (
   id SERIAL PRIMARY KEY,
-  adds_id INT REFERENCES adds(id),
+  ad_id INT REFERENCES ads(id),
   image_urls VARCHAR(255)
 );
 

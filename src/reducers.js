@@ -1,8 +1,8 @@
 export default function(state = {}, action) {
-    if (action.type == 'RECEIVE_ADDS') {
+    if (action.type == 'RECEIVE_ADS') {
         state = {
             ...state,
-            adds: action.adds
+            ads: action.ads
         };
     }
 

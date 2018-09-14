@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS adds;
+DROP TABLE IF EXISTS ads;
 
-CREATE TABLE adds (
+CREATE TABLE ads (
   id SERIAL PRIMARY KEY,
   user_id INT REFERENCES users(id),
   title VARCHAR(255),

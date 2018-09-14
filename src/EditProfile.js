@@ -1,58 +1,57 @@
 import React, {Component} from "react";
-import { connect } from 'react-redux';
-import { receiveUserInfo , userIsLoggedIn , userIsLoggedOut } from './actions';
-import axios from './axios';
-// import Profile from './Profile';
+
 
 class EditProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            info : this.props.userInfo
+            userInfoProfile : this.props.userInfoProfile,
+            showProfileIsUpdatedMessage : this.props.showProfileIsUpdatedMessage
         };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleInfoChange = this.handleInfoChange.bind(this);
+
     }
 
-    handleChange(e) {
+    handleInfoChange(e){
         this.setState({ [e.target.name] : e.target.value }, ()=>{
+            console.log(this.state);
         });
     }
-
-    handleSubmit(e) {
-        e.preventDefault();
-        axios.post('/update-user-info', this.state).then((results)=>{
-            console.log(results.data);
-        //     if (results.data.success) {
-        //         this.props.dispatch(receiveUserInfo(results.data.userId));
-        //         this.props.dispatch(userIsLoggedIn(results.data.userId));
-        //         setTimeout(()=>{
-        //             console.log("Im changing the state");
-        //             this.setState({
-        //                 loggedInUserId : results.data.userId
-        //             });}
-        //             ,700);
-        //         console.log(results.data.message);
-        //         console.log("I want it here",this.props);
-        //         // location.replace('/welcome');
-        //     }else {
-        //         this.props.dispatch(userIsLoggedOut());
-        //         console.log(results.data.message);
-        //     }
-        });
-
-    }
+    // UNSAFE_componentWillMount(){
+    //     this.setState = ({
+    //         userInfoProfile : this.props.userInfoProfile
+    //         // showProfileIsUpdatedMessage : this.props.showProfileIsUpdatedMessage
+    //     });
+    // }
+    //   handleSubmit(e) {
+    //       e.preventDefault();
+    //       if (this.state.firstname || this.state.lastname || this.state.gender || this.state.phonenumber || this.state.email || this.state.password) {
+    //         axios.post('/update-user-info', this.state).then((results)=>{
+    //             console.log("After updating ", results.data);
+    //             this.setState({
+    //               info : results.data,
+    //               showUpdatedMessage : 'Udpated Successfully'
+    //             });
+    //             location.replace('/profile');
+    //       });
+    //     }else {
+    //       this.setState({
+    //         showUpdatedMessage : 'Nothing Changed To Update!'
+    //       });
+    //     }
+    // }
 
     render() {
+        const { userInfoProfile, showProfileIsUpdatedMessage} = this.state;
         return (
             <div className="registration-div">
-                <form className="registration-form" onSubmit={this.handleSubmit}>
+                <form className="registration-form" onSubmit={(event)=>this.props.updateProfile(event, this.state)}>
                     <div className="input-div">
                         <input
                             type="text"
                             name="firstname"
-                            placeholder={this.state.info.first_name}
-                            onChange={this.handleChange}
+                            placeholder={userInfoProfile.first_name}
+                            onChange={this.handleInfoChange}
                         />
                     </div>
                     <div className="input-div">
@@ -60,8 +59,8 @@ class EditProfile extends Component {
                         <input
                             type="text"
                             name="lastname"
-                            placeholder={this.state.info.last_name}
-                            onChange={this.handleChange}
+                            placeholder={userInfoProfile.last_name}
+                            onChange={this.handleInfoChange}
                         />
                     </div>
                     <div className="input-div">
@@ -69,8 +68,8 @@ class EditProfile extends Component {
                         <input
                             type="text"
                             name="gender"
-                            placeholder={this.state.info.gender}
-                            onChange={this.handleChange}
+                            placeholder={userInfoProfile.gender}
+                            onChange={this.handleInfoChange}
                         />
                     </div>
                     <div className="input-div">
@@ -78,8 +77,8 @@ class EditProfile extends Component {
                         <input
                             type="text"
                             name="phonenumber"
-                            placeholder={this.state.info.phone_number}
-                            onChange={this.handleChange}
+                            placeholder={userInfoProfile.phone_number}
+                            onChange={this.handleInfoChange}
                         />
                     </div>
                     <div className="input-div">
@@ -87,8 +86,8 @@ class EditProfile extends Component {
                         <input
                             type="email"
                             name="email"
-                            placeholder={this.state.info.email}
-                            onChange={this.handleChange}
+                            placeholder={userInfoProfile.email}
+                            onChange={this.handleInfoChange}
                         />
                     </div>
                     <div className="input-div">
@@ -97,12 +96,15 @@ class EditProfile extends Component {
                             type="password"
                             name="password"
                             placeholder="Password"
-                            onChange={this.handleChange}
+                            onChange={this.handleInfoChange}
                         />
                     </div>
                     <div className="input-div">
                         <input type="submit" value="Save" />
                     </div>
+                    {showProfileIsUpdatedMessage && <div className="profile-updated">
+                        {showProfileIsUpdatedMessage}
+                    </div>}
                 </form>
             </div>
         );
@@ -111,12 +113,4 @@ class EditProfile extends Component {
 
 }
 
-const mapStateToProps = function(state) {
-    return {
-        userInfo : state.userInfo,
-        userAdsImages : state.userAdsImages,
-        loggedInUserId : state.loggedInUserId
-    };
-};
-
-export default connect(mapStateToProps)(EditProfile);
+export default EditProfile;

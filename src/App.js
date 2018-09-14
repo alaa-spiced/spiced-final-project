@@ -1,131 +1,103 @@
-import React from 'react';
-import { BrowserRouter , Route } from 'react-router-dom';
-// import Logo from './Logo';
-import axios from './axios';
-import Profile from './Profile';
-// import Uploader from './Uploader';
-// import Friends from './Friends';
-// import Chat from './chat';
-// import OnlineUsers from './OnlineUsers';
+import React from "react";
+import { BrowserRouter, Route } from "react-router-dom";
+import history from "./history";
+import axios from "./axios";
+import Profile from "./Profile";
+import About from "./About";
+import Contact from "./Contact";
+import Ads from "./Ads";
+import { Link } from "react-router-dom";
 
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            showBio: false,
-            uploaderIsVisible : false
+            userId: null,
+            userInfo: "",
+            userAdsImages: "",
         };
-        this.showUploader = this.showUploader.bind(this);
-        this.setImage = this.setImage.bind(this);
-        this.toggleShowBio = this.toggleShowBio.bind(this);
-        this.setBio = this.setBio.bind(this);
-        // this.deleteAccount = this.deleteAccount.bind(this);
+
     }
 
-    showUploader() {
-        this.setState({
-            uploaderIsVisible : !this.state.uploaderIsVisible
+    UNSAFE_componentWillMount() {
+        axios.post("/get-user-info").then(results => {
+            console.log("User Info", results.data.userInfo);
+            console.log("User Ads Images", results.data.userAdsImages);
+            this.setState({
+                userInfo: results.data.userInfo,
+                userAdsImages: results.data.userAdsImages
+            });
         });
     }
-
-    // deleteAccount() {
-    //     var confirm_1 = confirm('Are you sure, you wanna delete your account?');
-    //     if (confirm_1 == true) {
-    //         var confirm_2 = confirm("We are so sad to know that, please don't leave us :(");
-    //         if (confirm_2 == true) {
-    //             var confirm_3 = confirm("Please take a minute and think again :(");
-    //             if (confirm_3 == true) {
-    //                 axios.get('/delete-account').then((results)=>{
-    //                     if(results.data.success){
-    //                         location.replace('/');
-    //                     }
-    //                 });
-    //             }
-    //         }
-    //     }
     //
+    // componentDidMount() {
+    //   history.push("/profile");
     // }
-
-    setImage(url){
-        this.setState({
-            profilePic : url,
-            uploaderIsVisible : false
-        });
-    }
-
-    toggleShowBio() {
-        this.setState({
-            showBio: !this.state.showBio
-        });
-
-    }
-
-    setBio(bioText){
-        axios.post('/user-bio',{bioText}).then((results)=>{
-            console.log(results);
-            this.setState({
-                showBio : false
-            });
-        });
-    }
-
-    componentDidMount(){
-        axios.get('/user').then((results)=>{
-            this.setState({
-                userId : results.data.id,
-                firstName : results.data.first_name,
-                lastName : results.data.last_name,
-                profilePic : results.data.image_url || './images/default.jpg',
-                bio : results.data.bio
-            });
-        });
-    }
-
     render() {
-        if(!this.state.userId){
-            return (
-                <img src="./images/progressbar.gif"/>
-            );
+        if (!this.state.userInfo.id) {
+            return <img src="./images/progressbar.gif" />;
         }
         return (
             <div id="app">
                 <BrowserRouter>
-                    <div>
+                    <div className="welcome-page">
                         <div className="header">
-                            {/*<Logo first={this.state.firstName} last={this.state.lastName}/>*/}
-                            <img className="profilepic" src={this.state.profilePic} onClick={this.showUploader} />{this.state.firstName} {this.state.lastName}
-                            <div className="delete-account"> <button className="delete-account-button" onClick={this.deleteAccount}>Delete Your Account</button></div>
-                            {/*{this.state.uploaderIsVisible && <Uploader setImage={this.setImage} />}*/}
+                            <div className="logo-image-container">
+                                <div className="image-wraper">
+                                    <img
+                                        className="logo-image-welcome"
+                                        src="/images/logo1.png"
+                                        alt="Logo image"
+                                    />
+                                </div>
+                                <div className="logo-text">
+                                    <h2>
+                                        <i>Free Your Stuff</i>
+                                    </h2>
+                                </div>
+                            </div>
+
+                            <div className="welcome-nav">
+                                <Link className="about-link" to="/about">
+                  About us
+                                </Link>
+                                <Link className="contact-link" to="/contact">
+                  Contact us
+                                </Link>
+
+                                <Link className="ads-link" to="/ads">
+                  Ads
+                                </Link>
+
+                                <Link className="profile-link" to="/profile">
+                  Profile
+                                </Link>
+                            </div>
+                        </div>
+                        <div className="main-content">
+                            <Route path="/about" component={About} />
+                            <Route path="/contact" component={Contact} />
+                            <Route path="/ads" component={Ads} />
+                            <Route
+                                exact
+                                path="/profile"
+                                render={() => (
+                                    <Profile
+                                        userInfoProfile={this.state.userInfo}
+                                    />
+                                )}
+                            />
                         </div>
 
-                        <Route path="/profile" render={() => (
-                            <Profile
-                                firstName={ this.state.firstName }
-                                lastName={ this.state.lastName }
-                                userId={ this.state.userId }
-                                profilePic={ this.state.profilePic }
-                                showBio={ this.state.showBio }
-                                uploaderIsVisible = {this.state.uploaderIsVisible}
-                                userBio={this.state.bio}
-                                toggleShowBio={ this.toggleShowBio }
-                                showUploader ={this.showUploader}
-                                setImage = {this.setImage}
-                                setBio = {this.setBio}
-                            />
-                        )} />
-                        {/*<Route exact path="/friends" component={Friends} />
-                        <Route exact path='/online' component= {OnlineUsers} />
-                        <Route exact path="/chat" component={Chat} />*/}
-
+                        <div className="footer">
+                            <footer>&#169; 2018 Created by Alaa Abushkayyan</footer>
+                        </div>
                     </div>
-
                 </BrowserRouter>
-
-
             </div>
         );
-
     }
 }
+
 
 export default App;

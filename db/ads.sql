@@ -4,7 +4,7 @@ CREATE TABLE ads (
   id SERIAL PRIMARY KEY,
   user_id INT REFERENCES users(id),
   title VARCHAR(255),
-  class VARCHAR(100),
+  classification VARCHAR(100),
   category VARCHAR(100),
   post_code INT,
   city VARCHAR(100),

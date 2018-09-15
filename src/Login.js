@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import axios from './axios';
 import App from './App';
-import { receiveUserInfo } from './actions';
+
 class Login extends Component {
     constructor(props) {
         super(props);

@@ -163,7 +163,7 @@ class Profile extends Component {
                             showProfileIsUpdatedMessage={showProfileIsUpdatedMessage}
                             handleInfoChange={this.handleInfoChange}
                         />
-                    )}            
+                    )}
                     {this.state.createAd && (
                         <CreateAd />
                     )}

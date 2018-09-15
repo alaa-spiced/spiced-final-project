@@ -35,7 +35,7 @@ class App extends React.Component {
     // }
     render() {
         if (!this.state.userInfo.id) {
-            return <img src="./images/progressbar.gif" />;
+            return <div className="progressbar-div"> <img src="./images/progressbar.gif" /> </div>;
         }
         return (
             <div id="app">
